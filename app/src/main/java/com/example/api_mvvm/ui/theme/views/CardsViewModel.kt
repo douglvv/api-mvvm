@@ -26,6 +26,11 @@ class CardsViewModel: ViewModel() {
     private var _uiState : MutableStateFlow<CardsUiState> = MutableStateFlow(CardsUiState.Loading)
     val uiState: StateFlow<CardsUiState> = _uiState.asStateFlow()
 
+    init {
+        getCards()
+    }
+
+    // Gera a lista de cartas e atualiza o ui state de sucesso
     private fun getCards(){
         viewModelScope.launch {
             try {
@@ -33,9 +38,9 @@ class CardsViewModel: ViewModel() {
                     YugiOhApi.retrofitService.getCards()
                 )
             } catch (e: IOException){
-
+                _uiState.value = CardsUiState.Error
             } catch (e: HttpException){
-
+                _uiState.value = CardsUiState.Error
             }
 
         }

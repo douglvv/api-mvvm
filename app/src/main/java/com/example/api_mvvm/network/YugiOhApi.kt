@@ -19,7 +19,7 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface YugiOhApiService {
-    @GET("cardinfo.php?type=Normal+Monster") // Faz o fetch na API
+    @GET("cardinfo.php?type=Normal+Monster") // Faz o fetch na api
     suspend fun getCards(): List<Card>
 }
 
