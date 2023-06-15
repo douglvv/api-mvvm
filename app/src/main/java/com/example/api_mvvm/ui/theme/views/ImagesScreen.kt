@@ -7,11 +7,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Card
-import androidx.compose.material.Text
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,35 +24,33 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.api_mvvm.R
-import com.example.api_mvvm.data.Card
-import com.example.api_mvvm.network.BASE_URL
+import com.example.api_mvvm.data.LoremPicsum
 
 @Composable
-fun CardsScreen(
-    cardsViewModel: CardsViewModel = viewModel()
+fun ImagesScreen(
+    imagesViewModel: ImagesViewModel = viewModel()
 ) {
-
-    val uiState by cardsViewModel.uiState.collectAsState()
+    val uiState by imagesViewModel.uiState.collectAsState()
     when(uiState){
-        is CardsUiState.Loading -> LoadingScreen()
-        is CardsUiState.Success -> CardsList((uiState as CardsUiState.Success).cards)
-        is CardsUiState.Error -> ErrorScreen()
+        is ImagesUiState.Loading -> LoadingScreen()
+        is ImagesUiState.Success -> ImageList((uiState as ImagesUiState.Success).images)
+        is ImagesUiState.Error -> ErrorScreen()
     }
 }
 
 @Composable
 fun LoadingScreen() {
-
+    Text(text = "Loading")
 }
 
 @Composable
 fun ErrorScreen() {
-
+    Text(text = "Error")
 }
 
 @Composable
-fun CardsList(
-    cards: List<Card>
+fun ImageList(
+    images: List<LoremPicsum>
 ) {
     LazyVerticalGrid(
         modifier = Modifier
@@ -63,27 +58,27 @@ fun CardsList(
             .background(Color.LightGray),
         columns = GridCells.Fixed(1)
     ){
-        items(cards) {card ->
-            CardEntry(card = card)
+        items(images) { image ->
+            ImageEntry(image = image)
         }
     }
 }
 
 @Composable
-fun CardEntry(
-    card: Card
+fun ImageEntry(
+    image: LoremPicsum
 ) {
     androidx.compose.material.Card(
         modifier = Modifier.padding(6.dp),
-        //elevation = CardDefaults.cardElevation(6.dp) não funcionou essa merda
+        //elevation = CardDefaults.cardElevation(6.dp) // Não funcionou essa merda
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(card.imageUrl)
+                .data(image.url)
                 .crossfade(true)
                 .build(),
-            placeholder = painterResource(R.drawable.cardback), // imagem placeholder
-            contentDescription = card.name,
+            placeholder = painterResource(R.drawable.placeholder), // imagem placeholder
+            contentDescription = image.author,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .clip(RectangleShape)
