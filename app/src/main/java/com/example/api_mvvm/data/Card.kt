@@ -6,6 +6,6 @@ data class Card(
 
     val id: String,
     val name: String,
-    val imgUrl: String,
+    val iamgeUrl: String,
 
     )

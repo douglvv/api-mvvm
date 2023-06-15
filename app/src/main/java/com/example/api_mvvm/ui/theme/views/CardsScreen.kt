@@ -79,7 +79,7 @@ fun CardEntry(
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(card.imgUrl)
+                .data(card.imageUrl)
                 .crossfade(true)
                 .build(),
             placeholder = painterResource(R.drawable.cardback), // imagem placeholder
