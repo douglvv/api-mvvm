@@ -1,9 +1,8 @@
 package com.example.api_mvvm.ui.theme.views
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -12,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
@@ -40,12 +41,20 @@ fun ImagesScreen(
 
 @Composable
 fun LoadingScreen() {
-    Text(text = "Loading")
+    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+        Image(
+            modifier = Modifier.size(150.dp),
+            painter = painterResource(id = R.drawable.loading),
+            contentDescription = "Loading"
+        )
+    }
 }
 
 @Composable
 fun ErrorScreen() {
-    Text(text = "Error")
+    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+        Text(text = stringResource(id = androidx.compose.ui.R.string.default_error_message))
+    }
 }
 
 @Composable
@@ -55,8 +64,8 @@ fun ImageList(
     LazyVerticalGrid(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.LightGray),
-        columns = GridCells.Fixed(1)
+            .background(Color.DarkGray),
+        columns = GridCells.Fixed(1) // 1 coluna com 1 foto em casa
     ){
         items(images) { image ->
             ImageEntry(image = image)
@@ -70,7 +79,7 @@ fun ImageEntry(
 ) {
     androidx.compose.material.Card(
         modifier = Modifier.padding(6.dp),
-        //elevation = CardDefaults.cardElevation(6.dp) // Não funcionou essa merda
+        //elevation = CardDefaults.cardElevation(6.dp) // Não funcionou
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
